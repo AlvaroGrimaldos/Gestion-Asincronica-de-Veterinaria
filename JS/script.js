@@ -55,7 +55,7 @@ function registrarDueno(callback) {
 
 // registrarDueno(mostrarId);
 
-let mascotas = []
+let mascotas = [];
 let idGenericoMascotas = 100;
 
 function validacionDueno(id, idmascota) {
@@ -94,9 +94,13 @@ function listarMascotas() {
 
 // listarMascotas();
 
-function buscarMascota(params) {
-    let mascotaBuscada = prompt("Ingrese el nombre de su mascota.")
+function buscarMascota() {
+    let mascotaBuscada = prompt("Ingrese el nombre de su mascota.");
+    const busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
+    console.table(busqueda);
 };
+
+// buscarMascota();
 
 function actualizarMascota(params) {
     
