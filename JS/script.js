@@ -3,7 +3,7 @@ function menuInicial() {
 
     switch (menu) {
         case 1:
-            registrarDueno();
+            registrarDueno(mostrarId);
         case 2:
             registrarMascota();
         case 3:
@@ -23,17 +23,38 @@ function menuInicial() {
     }
 };
 
-function registrarDueno() {
+let duenos = new Map();
+let idGenerico = 1000
+
+function mostrarId(id) {
+    setTimeout(() => {
+        alert(`Usuario registrado con exito. \n Su ID es: ${id}`)
+    }, 1500);
+}
+
+function registrarDueno(callback) {
+    let id = idGenerico++;
+    duenos.set("ID", id);
+
     let nombre = prompt("Ingrese su nombre y apellido.");
+    duenos.set("Nmobre", nombre);
 
     let cedula = prompt("Ingrese su cedula.");
+    duenos.set("Cedula", cedula);
 
     let telefono = prompt("Ingrese su numero telefonico.");
+    duenos.set("Telefono", telefono);
 
     let correo = prompt("Ingrese su correo electronico.");
+    duenos.set("Correo", correo);
 
+    // console.log(duenos);
+    callback(id);
     //Hacer un alert que muestre el ID que se le genero y crear el objeto o diccionario en donde se van a guardar 
-};
+}
+
+// registrarDueno(mostrarId);
+
 
 function registrarMascota(params) {
     let nombre = prompt("Ingrese el nombre de su mascota.");
