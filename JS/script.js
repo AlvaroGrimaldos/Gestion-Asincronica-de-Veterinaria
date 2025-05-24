@@ -107,7 +107,7 @@ function listarMascotas() {
 
 function buscarMascota() {
     let mascotaBuscada = prompt("Ingrese el nombre de su mascota.");
-    const busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
+    let busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
     console.table(busqueda);
 };
 
@@ -143,8 +143,10 @@ function eliminarMascota() {
     };
 };
 
-function verMascota(params) {
-    
-}
+function verMascota() {
+    let idBuscado = Number(prompt("Ingrese su ID."));
+    const busqueda = mascotas.find(p => p.IDdueno == idBuscado);
+    console.table(busqueda);
+};
 
 
