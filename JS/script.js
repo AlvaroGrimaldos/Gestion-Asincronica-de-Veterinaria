@@ -55,12 +55,23 @@ function registrarDueno(callback) {
 
 // registrarDueno(mostrarId);
 
-let mascotas = [];
+let mascotas = [
+    {
+        ID: 100,
+        Nombre: "Juan",
+        Edad: 15
+    },
+    {
+        ID: 101,
+        Nombre: "Papi",
+        Edad: 12
+    }
+];
 let idGenericoMascotas = 100;
 
 function validacionDueno(id, idmascota) {
     setTimeout(() => {
-        alert(`Registro de mascota exitoso, Dueno con ID: ${id} si existe. \n ID de la mascota: ${idmascota}`);
+        alert(`Registro de mascota exitoso, Dueno con ID: ${id} si existe. \n ID de la mascota: ${idmascota} \n (Se necesita para actualizar el estado de salud de su mascota)`);
     }, 2000);
 }
 function registrarMascota(callback) {
@@ -102,12 +113,34 @@ function buscarMascota() {
 
 // buscarMascota();
 
-function actualizarMascota(params) {
-    
+function actualizarMascota() {
+    let idBusqueda = prompt("Ingrese el ID de su mascota.");
+    let mascotaAct = mascotas.find(p => p.id ==idBusqueda);
+
+    if (mascotaAct) {
+        if (EstadoDeSalud == "Enfermo") {
+            mascotas.EstadoDeSalud = "En tratamiento";
+            alert("Ahora su mascota se encuentra en tratamiento.");
+        }else if (EstadoDeSalud == "En tratamiento") {
+            mascotas.EstadoDeSalud = "Sano";
+            alert("Ahora su mascota se encuentra sana.");
+        }else{
+            alert(`Su mascota se encuentra ${EstadoDeSalud}`)
+        }
+    };
 };
 
-function eliminarMascota(params) {
-    
+function eliminarMascota() {
+    let mascotaEliminar = prompt("Ingrese el nombre se la mascota.")
+    let indice = mascotas.findIndex(p => p.Nombre.toLowerCase() === mascotaEliminar.toLowerCase());
+
+    if (indice !== -1) {
+        let eliminada = mascotas.splice(indice, 1);
+        console.log("Mascota eliminida: ", eliminada[0]);
+        alert("Mascota eliminada con exito.");
+    }else {
+        alert("No se encontro una mascota con ese nombre");
+    };
 };
 
 function verMascota(params) {
