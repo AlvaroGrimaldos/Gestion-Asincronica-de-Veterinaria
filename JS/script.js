@@ -164,9 +164,16 @@ function buscarMascota() {
 
 // buscarMascota();
 
-function actualizarMascota() {
+async function actualizarMascota() {
     let idBusqueda = prompt("Ingrese el ID de su mascota.");
     let mascotaAct = mascotas.find(p => p.id ==idBusqueda);
+
+    if (!mascotaAct) {
+        alert("No se encontró mascota con ese ID.");
+        return;
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (mascotaAct) {
         if (EstadoDeSalud == "Enfermo") {
@@ -176,7 +183,7 @@ function actualizarMascota() {
             mascotas.EstadoDeSalud = "Sano";
             alert("Ahora su mascota se encuentra sana.");
         }else{
-            alert(`Su mascota se encuentra ${EstadoDeSalud}`)
+            alert(`Su mascota se encuentra ${mascotaAct.EstadoDeSalud}`)
         }
     };
 };
