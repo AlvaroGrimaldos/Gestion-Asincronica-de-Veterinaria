@@ -9,7 +9,13 @@ async function menuInicial() {
         case 3:
             await listarMascotas();
         case 4:
-            await buscarMascota();
+            await buscarMascota()
+                    .then(mascotaEncontrada => {
+                        console.log("Mascota encontrada:", mascotaEncontrada);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
         case 5:
             await actualizarMascota();
         case 6:
@@ -106,10 +112,24 @@ function listarMascotas() {
 // listarMascotas();
 
 function buscarMascota() {
-    let mascotaBuscada = prompt("Ingrese el nombre de su mascota.");
-    let busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
-    console.table(busqueda);
-};
+    return new Promise((resolve, reject) => {
+        let mascotaBuscada = prompt("Ingrese el nombre de su mascota.");
+        
+        if (!mascotaBuscada) {
+            reject("No se ingresó ningún nombre");
+            return;
+        }
+
+        let busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
+        
+        if (busqueda) {
+            console.table(busqueda);
+            resolve(busqueda);
+        } else {
+            reject(`No se encontró la mascota con nombre "${mascotaBuscada}"`);
+        }
+    });
+}
 
 // buscarMascota();
 
