@@ -1,13 +1,25 @@
+async function main() {
+    let salir = false;
+    
+    while (!salir) {
+        const opcion = await menuInicial();
+        if (opcion === 8) salir = true;
+    }
+}
+
 async function menuInicial() {
     let menu = Number(prompt("Bienvenido, Ingrese la opcion que desea realizar \n 1) Registrar un nuevo dueno. \n 2) Registrar una nueva mascota. \n 3) Listar todas las mascotas. \n 4) Buscar una mascota por nombre. \n 5) Actualizar el estado de salud de una mascota. \n 6) Eliminar mascota por nombre \n 7) Ver mascotas de un dueno. \n 8) Salir."))
 
     switch (menu) {
         case 1:
             await registrarDueno(mostrarId);
+            break;
         case 2:
             await registrarMascota(validacionDueno);
+            break;
         case 3:
             await listarMascotas();
+            break;
         case 4:
             await buscarMascota()
                     .then(mascotaEncontrada => {
@@ -16,17 +28,23 @@ async function menuInicial() {
                     .catch(error => {
                         console.error("Error:", error);
                     });
+            break;
         case 5:
             await actualizarMascota();
+            break;
         case 6:
             await eliminarMascota();
+            break;
         case 7:
             await verMascota();
-        case 8:
             break;
+        case 8:
+            return 8;
         default:
             alert("Por favor ingrese una opcion correcta.");
-    }
+    };
+
+    return menu;
 };
 
 let duenos = [];
