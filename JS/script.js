@@ -29,7 +29,7 @@ async function menuInicial() {
     }
 };
 
-let duenos = new Map();
+let duenos = [];
 let idGenerico = 1000
 
 function mostrarId(id) {
@@ -39,21 +39,30 @@ function mostrarId(id) {
 };
 
 function registrarDueno(callback) {
-    let id = idGenerico++;
-    duenos.set("ID", id);
+    let id, nombre, cedula, telefono, correo;
 
-    let nombre = prompt("Ingrese su nombre y apellido.");
-    duenos.set("Nmobre", nombre);
+    do {
+        nombre = prompt("Ingrese su nombre y apellido.");
+        if(!nombre) alert("El nombre no puede estar vacio.")
+    } while(!nombre);
+    
 
-    let cedula = prompt("Ingrese su cedula.");
-    duenos.set("Cedula", cedula);
+     do {
+        cedula = prompt("Ingrese su cédula.");
+        if (!cedula || isNaN(cedula)) alert("La cédula debe ser un número.");
+    } while (!cedula || isNaN(cedula));
 
-    let telefono = prompt("Ingrese su numero telefonico.");
-    duenos.set("Telefono", telefono);
+    do {
+        telefono = prompt("Ingrese su número telefónico.");
+        if (!telefono || isNaN(telefono)) alert("El teléfono debe ser un número.");
+    } while (!telefono || isNaN(telefono));
 
-    let correo = prompt("Ingrese su correo electronico.");
-    duenos.set("Correo", correo);
+    do {
+        correo = prompt("Ingrese su correo electrónico.");
+        if (!correo || !correo.includes('@')) alert("Ingrese un correo válido.");
+    } while (!correo || !correo.includes('@'));
 
+    duenos.push({ID: id, Nombre: nombre, Cedula: cedula, Telefono: telefono, Correo: correo})
     // console.log(duenos);
     callback(id);
     //Hacer un alert que muestre el ID que se le genero y crear el objeto o diccionario en donde se van a guardar 
@@ -120,14 +129,17 @@ function buscarMascota() {
             return;
         }
 
-        let busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
+        setTimeout(() => {
+            let busqueda = mascotas.find(p => p.Nombre == mascotaBuscada);
         
-        if (busqueda) {
-            console.table(busqueda);
-            resolve(busqueda);
-        } else {
-            reject(`No se encontró la mascota con nombre "${mascotaBuscada}"`);
-        }
+            if (busqueda) {
+                console.table(busqueda);
+                resolve(busqueda);
+            } else {
+                reject(`No se encontró la mascota con nombre "${mascotaBuscada}"`);
+            }
+        }, 1500)
+        
     });
 }
 
@@ -151,17 +163,31 @@ function actualizarMascota() {
 };
 
 function eliminarMascota() {
-    let mascotaEliminar = prompt("Ingrese el nombre se la mascota.")
+    let mascotaEliminar = prompt("Ingrese el nombre de la mascota a eliminar:");
+
+    if (!mascotaEliminar) {
+        alert("No se ingresó ningún nombre.");
+        return;
+    }
+
     let indice = mascotas.findIndex(p => p.Nombre.toLowerCase() === mascotaEliminar.toLowerCase());
 
-    if (indice !== -1) {
-        let eliminada = mascotas.splice(indice, 1);
-        console.log("Mascota eliminida: ", eliminada[0]);
-        alert("Mascota eliminada con exito.");
-    }else {
-        alert("No se encontro una mascota con ese nombre");
-    };
-};
+    if (indice === -1) {
+        alert(`No se encontró una mascota con el nombre "${mascotaEliminar}".`);
+        return; 
+    }
+
+    const confirmacion = confirm(`¿Está seguro de eliminar a "${mascotaEliminar}"?`);
+
+    if (!confirmacion) {
+        alert("Eliminación cancelada.");
+        return;
+    }
+
+    let mascotaEliminada = mascotas.splice(indice, 1)[0];
+    console.log("Mascota eliminada:", mascotaEliminada);
+    alert(`"${mascotaEliminada.Nombre}" fue eliminado/a con éxito.`);
+}
 
 function verMascota() {
     let idBuscado = Number(prompt("Ingrese su ID."));
@@ -169,4 +195,6 @@ function verMascota() {
     console.table(busqueda);
 };
 
-
+while(true){
+    menuInicial();
+};
