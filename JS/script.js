@@ -70,18 +70,7 @@ function registrarDueno(callback) {
 
 // registrarDueno(mostrarId);
 
-let mascotas = [
-    {
-        ID: 100,
-        Nombre: "Juan",
-        Edad: 15
-    },
-    {
-        ID: 101,
-        Nombre: "Papi",
-        Edad: 12
-    }
-];
+let mascotas = [];
 let idGenericoMascotas = 100;
 
 function validacionDueno(id, idmascota) {
@@ -90,13 +79,43 @@ function validacionDueno(id, idmascota) {
     }, 2000);
 }
 function registrarMascota(callback) {
+    let nombre, especie, edad, peso, estadoSalud, idDueno;
+    const especiesPermitidas = ['Perro', 'Gato', 'Ave', 'Reptil', 'Otro'];
+    const estadosPermitidos = ['Sano', 'Enfermo', 'En tratamiento'];
+
+    do {
+        nombre = prompt("Ingrese el nombre de su mascota.");
+        if (!nombre) alert("El nombre no puede estar vacío.");
+    } while (!nombre);
+
+    do {
+        especie = prompt("Ingrese la especie de su mascota (Perro, Gato, Ave, Reptil, Otro).");
+        if (!especiesPermitidas.includes(especie)) alert("Especie no válida.");
+    } while (!especiesPermitidas.includes(especie));
+
+    do {
+        edad = prompt("Ingrese la edad de su mascota en años.");
+        if (!edad || isNaN(edad) || edad <= 0) alert("Edad debe ser un número positivo.");
+    } while (!edad || isNaN(edad) || edad <= 0);
+
+    do {
+        peso = prompt("Ingrese el peso (Kg) de su mascota.");
+        if (!peso || isNaN(peso) || peso <= 0) alert("Peso debe ser un número positivo.");
+    } while (!peso || isNaN(peso) || peso <= 0);
+
+    do {
+        estadoSalud = prompt("Ingrese el estado de salud de su mascota (Sano, Enfermo, En tratamiento).");
+        if (!estadosPermitidos.includes(estadoSalud)) alert("Estado de salud no válido.");
+    } while (!estadosPermitidos.includes(estadoSalud));
+
+    let duenoExistente;
+    do {
+        idDueno = prompt("Ingrese el ID del dueño.");
+        duenoExistente = duenos.find(d => d.ID == idDueno);
+        if (!duenoExistente) alert("No existe un dueño con ese ID.");
+    } while (!duenoExistente);
+
     let idMascotas = idGenericoMascotas++;
-    let nombre = prompt("Ingrese el nombre de su mascota.");
-    let especie = prompt("Ingrese la especie de su mascota.");
-    let edad = prompt("Ingrese la edad de su mascota en anos.");
-    let peso = prompt("Ingrese el peso (Kg) de su mascota.");
-    let estadoSalud = prompt("Ingrese el estado de salud de su mascota (Sano, Enfermo, En tratamiento).")
-    let idDueno = prompt("Ingrese el ID del dueno.");
 
     mascotas.push({ID: idMascotas, Nombre: nombre, Especie: especie, Edad: edad, Peso: peso, EstadoDeSalud: estadoSalud, IDdueno: idDueno});
     // console.log(mascotas);
