@@ -189,38 +189,48 @@ async function actualizarMascota() {
 };
 
 function eliminarMascota() {
-    let mascotaEliminar = prompt("Ingrese el nombre de la mascota a eliminar:");
+    return new Promise((resolve) => {
+        let mascotaEliminar = prompt("Ingrese el nombre de la mascota a eliminar:");
 
-    if (!mascotaEliminar) {
-        alert("No se ingresó ningún nombre.");
-        return;
-    }
+        if (!mascotaEliminar) {
+            alert("No se ingresó ningún nombre.");
+            resolve(false);
+            return;
+        }
 
-    let indice = mascotas.findIndex(p => p.Nombre.toLowerCase() === mascotaEliminar.toLowerCase());
+        setTimeout(() => {
+            let indice = mascotas.findIndex(p => p.Nombre.toLowerCase() === mascotaEliminar.toLowerCase());
 
-    if (indice === -1) {
-        alert(`No se encontró una mascota con el nombre "${mascotaEliminar}".`);
-        return; 
-    }
+            if (indice === -1) {
+                alert(`No se encontró una mascota con el nombre "${mascotaEliminar}".`);
+                resolve(false);
+                return;
+            }
 
-    const confirmacion = confirm(`¿Está seguro de eliminar a "${mascotaEliminar}"?`);
+            const confirmacion = confirm(`¿Está seguro de eliminar a "${mascotaEliminar}"?`);
 
-    if (!confirmacion) {
-        alert("Eliminación cancelada.");
-        return;
-    }
-
-    let mascotaEliminada = mascotas.splice(indice, 1)[0];
-    console.log("Mascota eliminada:", mascotaEliminada);
-    alert(`"${mascotaEliminada.Nombre}" fue eliminado/a con éxito.`);
+            if (confirmacion) {
+                let mascotaEliminada = mascotas.splice(indice, 1)[0];
+                console.log("Mascota eliminada:", mascotaEliminada);
+                alert(`"${mascotaEliminada.Nombre}" fue eliminado/a con éxito.`);
+                resolve(true);
+            } else {
+                alert("Eliminación cancelada.");
+                resolve(false);
+            }
+        }, 2000);
+    });
 }
 
-function verMascota() {
+async function verMascota() {
     let idBuscado = Number(prompt("Ingrese su ID."));
+    await new Promise(resolve => setTimeout(resolve, 2000));
     const busqueda = mascotas.find(p => p.IDdueno == idBuscado);
-    console.table(busqueda);
+    if (mascotasDueno.length > 0) {
+        console.table(mascotasDueno);
+    } else {
+        alert("No se encontraron mascotas para este dueño.");
+    }
 };
 
-while(true){
-    menuInicial();
-};
+main();
